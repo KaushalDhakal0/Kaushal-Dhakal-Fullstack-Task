@@ -1,17 +1,23 @@
-import React, { useState } from 'react'
-import "./index.css"
-import Modal from './components/Modal'
+import React from "react";
+import { Toaster } from "react-hot-toast";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import "./index.css";
+import { ROUTES } from "./routes";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <div>
-      <h1 className='tw-text-red-900'>Hello World......</h1>
-      <div className='tw-bg-gray-900'>HY</div>
-      <Modal />
+      <BrowserRouter>
+        <Routes>
+          {ROUTES.map(({ path, component }) => (
+            <Route key={path} path={path} element={component} />
+          ))}
+        </Routes>
+      </BrowserRouter>
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
