@@ -3,7 +3,7 @@ import LoginPage from '../components/Login';
 import HomePage from '../components/HomePage';
 
 const Home = () => {
-    const [isloggedIn, setIsloggedIn] = useState(false);
+    const [isloggedIn, setIsloggedIn] = useState(true);
     return ( 
         <div>
             {

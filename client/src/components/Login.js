@@ -1,6 +1,7 @@
 // LoginPage.js
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Button from "./common/Button";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -24,7 +25,7 @@ const LoginPage = () => {
         <h2 className="tw-text-3xl tw-font-bold tw-text-center tw-text-gray-700 tw-mb-6">
           Login
         </h2>
-        <form className="tw-space-y-6" onSubmit={handleSubmit}>
+        <form className="tw-space-y-6">
           <div>
             <label
               className="tw-block tw-text-gray-700 tw-mb-2"
@@ -59,13 +60,24 @@ const LoginPage = () => {
               placeholder="Enter your password"
             />
           </div>
-          <button
+          {/* <button
             type="submit"
             // onClick={handleSubmit}
             className="tw-w-full tw-bg-indigo-600 tw-text-white tw-py-2 tw-rounded-md tw-font-semibold hover:tw-bg-indigo-700 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-indigo-500 focus:tw-ring-offset-2"
           >
             Login
-          </button>
+          </button> */}
+           <div className="tw-flex tw-justify-end">
+        <Button
+            className={
+              "tw-text-center tw-w-full tw-flex tw-justify-center tw-bg-indigo-600 tw-text-white tw-py-2 tw-rounded-md tw-font-semibold  focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-offset-2"
+            }
+            title="Login"
+            disabled={!formData.email || !formData.password }
+            loading={false}
+            onClick={handleSubmit}
+          />
+        </div>
         </form>
         <p className="tw-text-center tw-text-gray-600 tw-mt-6">
           Don't have an account?{" "}
