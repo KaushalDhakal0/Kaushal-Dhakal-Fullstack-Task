@@ -12,7 +12,7 @@ const HomePage = () => {
       createdAt: "Jan 2023",
     },
     {
-      id: "akshdga",
+      id: "akshdgdasda",
       title: "Technology",
       description:
         "Suspendisse potenti. Proin consectetur malesuada risus, sit amet auctor sapien rhoncus at. Ut ac lorem a elit condimentum auctor. Curabitur sed dolor ante. Vivamus dignissim, magna ut fermentum tristique, libero justo rhoncus mauris, nec tempus odio tortor et velit.",
@@ -32,7 +32,6 @@ const HomePage = () => {
       {posts.map((post, index) => (
         <Link to={`/post/${post.id}`} key={post.id}>
           <div
-            key={index}
             className="tw-bg-white tw-shadow-md tw-rounded-lg tw-p-6 tw-mb-4 tw-cursor-pointer hover:tw-shadow-2xl"
           >
             <h2 className="tw-text-xl tw-font-semibold tw-text-gray-800">
