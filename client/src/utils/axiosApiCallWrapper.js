@@ -1,17 +1,14 @@
 import axios from "axios"
-import useGlobalStore from "../hooks/globalStore"
-import { serviceUrl } from "../constants/application"
 
-export const static_token =
-  process.env.REACT_APP_STATIC_TOKEN || localStorage.getItem('token')
+const baseUrl = import.meta.env.VITE_REACT_APP_API_ENDPOINT;
 
+
+console.log("==Base Url==>", baseUrl);
 const client = axios.create({
-  baseURL:serviceUrl.baseUrl,
+  baseURL:baseUrl,
 })
 
-const videoCilent = axios.create({
-  baseURL:serviceUrl.videoUrl,
-})
+
 export const ApiCall = function (
     method,
     route,
@@ -22,8 +19,6 @@ export const ApiCall = function (
     controller,
     singleVideo = false,
   ) {
-    const { globalStore } = useGlobalStore()
-    const { token } = globalStore.getState()
     const onSuccess = function (response) {
       return response.data
     }  
@@ -47,7 +42,7 @@ export const ApiCall = function (
   
     const config = {
       headers: {
-        Authorization: 'Bearer ' + (token || static_token),
+        // Authorization: 'Bearer ' + (token || static_token),
         'Content-Type': type || 'application/json',
       },
       onUploadProgress: (progressEvent) => {
@@ -60,22 +55,6 @@ export const ApiCall = function (
         }
       },
     }
-
-    if(singleVideo){
-      return videoCilent({
-        method,
-        url: route,
-        data: body,
-        headers: {
-          'Content-Type' : 'application/vnd.apple.mpegurl'
-        },
-        onUploadProgress: config.onUploadProgress,
-        cancelToken: controller?.token,
-      })
-        .then(onSuccess)
-        .catch(onError)
-
-    }else{
       return client({
         method,
         url: route,
@@ -86,6 +65,6 @@ export const ApiCall = function (
       })
         .then(onSuccess)
         .catch(onError)
-    }
+    
 
   }
