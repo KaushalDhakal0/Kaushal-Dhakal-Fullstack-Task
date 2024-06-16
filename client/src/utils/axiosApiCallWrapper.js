@@ -17,7 +17,6 @@ export const ApiCall = function (
     id,
     callback,
     controller,
-    singleVideo = false,
   ) {
     const onSuccess = function (response) {
       return response.data
