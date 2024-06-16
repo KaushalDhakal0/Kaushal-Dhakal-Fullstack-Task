@@ -1,4 +1,4 @@
-import { POSTS_FETCH, POST_UPDATE, POST_DELETE, POST_FETCH } from "./types";
+import { POSTS_FETCH, POST_UPDATE, POST_DELETE, POST_FETCH, POSTS_CREATE } from "./types";
 
 export const fetchPosts = () => ({
     type:POSTS_FETCH,
@@ -17,4 +17,9 @@ export const updatePost = (payload) => ({
 export const deletePost = (payload) => ({
     type:POST_DELETE,
     payload:payload
+})
+
+export const createPost = (payload) =>({
+    type: POSTS_CREATE,
+    payload: payload
 })

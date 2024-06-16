@@ -25,6 +25,8 @@ const Post = require("../models/Post");
 //   }
 // };
 
+
+
 const getAllPosts = async (req, res) => {
   // await insertDummyData();
   try {
@@ -72,13 +74,13 @@ const getPostById = async (req, res) => {
 };
 
 const createPost = async (req, res) => {
-  const { title, description, author, authorId } = req.body;
+  const { title, description, author } = req.body;
+
   try {
     const newPost = new Post({
       title,
       description,
       author,
-      authorId,
     });
     const post = await newPost.save();
     res.status(201).json({
