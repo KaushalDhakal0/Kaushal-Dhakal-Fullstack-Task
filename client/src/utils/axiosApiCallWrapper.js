@@ -32,9 +32,9 @@ export const ApiCall = function (
         console.error('Error Message:', error.message)
       }
   
-      // if (error.response.status === 401) {
-      //   window.location.href = '/logout'
-      // }
+      if (error.response.status === 401) {
+        window.location.href = '/login'
+      }
   
       return Promise.reject(error.response || error.message)
     }

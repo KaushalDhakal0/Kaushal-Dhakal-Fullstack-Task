@@ -1,11 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPost,  } from "../sagas/posts/actions";
 
-const CreateBlog = ({ handleCreatePost, setCreateMode }) => {
+const UpdateBlog = ({ handleUpdateBlog, setUpdateMode, currentPost }) => {
+  const dispatch = useDispatch();
+  const { currentPost: postDetails, fetching } = useSelector(
+    (state) => state.posts
+  );
+
+  useEffect(() => {
+    dispatch(
+      fetchPost({
+        postId: currentPost,
+      })
+    );
+  }, []);
   const [formData, setFormData] = useState({
     author: "",
     title: "",
     description: "",
+    postId: ""
   });
+
+  useEffect(() => {
+    if (postDetails?.title) {
+      setFormData({
+        author: postDetails.author,
+        title: postDetails.title,
+        description: postDetails.description,
+        postId: currentPost
+      });
+    }
+  }, [postDetails]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,7 +43,7 @@ const CreateBlog = ({ handleCreatePost, setCreateMode }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleCreatePost(formData);
+    handleUpdateBlog(formData);
     setFormData({
       author: "",
       title: "",
@@ -26,8 +52,13 @@ const CreateBlog = ({ handleCreatePost, setCreateMode }) => {
   };
 
   return (
-    <div>
-      <h1  className="tw-text-xl tw-w-[600px] tw-text-end tw-m-2 tw-cursor-pointer hover:tw-underline" onClick={() =>setCreateMode(false)}>Close</h1>
+    <div className=" tw-w-[500px] md:tw-w-[600px] lg:tw-w-[800px]">
+      <h1
+        className="tw-text-xl tw-text-end tw-m-2 tw-cursor-pointer hover:tw-underline"
+        onClick={() => setUpdateMode(false)}
+      >
+        Close
+      </h1>
       <form
         onSubmit={handleSubmit}
         className="tw-bg-white tw-shadow-md tw-rounded-lg tw-p-6 tw-mb-4"
@@ -83,12 +114,12 @@ const CreateBlog = ({ handleCreatePost, setCreateMode }) => {
             required
           ></textarea>
         </div>
-        <div className="tw-flex tw-items-center tw-justify-between">
+        <div className="tw-flex tw-items-end tw-justify-end">
           <button
             className="tw-bg-blue-500 hover:tw-bg-blue-700 tw-text-white tw-font-bold tw-py-2 tw-px-4 tw-rounded focus:tw-outline-none focus:tw-shadow-outline"
             type="submit"
           >
-            Create Post
+            Update Post
           </button>
         </div>
       </form>
@@ -96,4 +127,4 @@ const CreateBlog = ({ handleCreatePost, setCreateMode }) => {
   );
 };
 
-export default CreateBlog;
+export default UpdateBlog;
