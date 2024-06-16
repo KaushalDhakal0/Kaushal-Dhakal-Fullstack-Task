@@ -1,13 +1,30 @@
 // LoginPage.js
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "./common/Button";
+import { loginUser } from "../sagas/user/actions";
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
+  const {loginSuccess, loggingIn , token} = useSelector(state => state.user)
+  const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(()=>{
+    if(loginSuccess && token && !loggingIn){
+      navigate('/')
+    }
+  },[loginSuccess, token])
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
 
   const handleChange = (e) => {
     const {name, value} = e.target;
@@ -17,7 +34,20 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("=====Login Uswr ===>", formData);
+    const { email, password } = formData;
+    let validationErrors = {};
+
+    if (!validateEmail(email)) {
+      validationErrors.email = "Invalid email address";
+    }
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+    } else {
+      setErrors({});
+      dispatch(loginUser(formData));
+    }
+
   };
   return (
     <div className="tw-flex tw-items-center tw-justify-center tw-min-h-screen tw-bg-gray-100">
@@ -42,6 +72,7 @@ const LoginPage = () => {
               onChange={handleChange}
               placeholder="Enter your email"
             />
+             {errors.email && <p className="tw-text-red-500 tw-text-sm">{errors.email}</p>}
           </div>
           <div>
             <label

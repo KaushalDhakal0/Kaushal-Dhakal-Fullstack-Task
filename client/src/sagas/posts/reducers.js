@@ -1,4 +1,7 @@
 import {
+  POSTS_CREATE_ERROR,
+  POSTS_CREATE_START,
+  POSTS_CREATE_SUCCESS,
   POSTS_FETCH_ERROR,
   POSTS_FETCH_START,
   POSTS_FETCH_SUCCESS,
@@ -22,6 +25,8 @@ const initialState = {
   updating: false,
   updateSuccess: false,
   deleteSuccess: false,
+  creating: false,
+  createSuccess: false,
 };
 
 export function postsReducer(state = initialState, action) {
@@ -59,7 +64,7 @@ export function postsReducer(state = initialState, action) {
         ...state,
         deleting: false,
         deleteSuccess: true,
-        data: [...state.data].filter((val) => val.id !== action.id),
+        data: [...state.data].filter((val) => val._id !== action.id),
       };
 
     case POST_UPDATE_START:
@@ -79,13 +84,34 @@ export function postsReducer(state = initialState, action) {
         updating: false,
         updateSuccess: true,
         data: [...state.data].map((val) => {
-          if (val.id === action.post.id) {
+          if (val._id === action.post._id) {
             return action.post;
           } else {
             return val;
           }
         }),
       };
+
+      case POSTS_CREATE_START:
+        return {
+          ...state,
+          creating: true,
+          createSuccess: false
+        }
+        case POSTS_CREATE_ERROR:
+        return {
+          ...state,
+          creating: false,
+          createSuccess: false,
+          error: action?.message
+        }
+        case POSTS_CREATE_SUCCESS:
+        return {
+          ...state,
+          creating: false,
+          createSuccess: true,
+          data: [...state.data, action.post]
+        }
 
     default:
       return state;

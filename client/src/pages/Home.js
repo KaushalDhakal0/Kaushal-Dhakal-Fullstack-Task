@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
-import LoginPage from '../components/Login';
-import HomePage from '../components/HomePage';
+import React, { useState } from "react";
+import LoginPage from "../components/Login";
+import HomePage from "../components/HomePage";
 
 const Home = () => {
-    const [isloggedIn, setIsloggedIn] = useState(true);
-    return ( 
-        <div>
-            {
-                isloggedIn? <HomePage /> : <LoginPage />
-            }
-        </div>
-     );
-}
- 
+  return (
+    <div>
+      <HomePage />
+    </div>
+  );
+};
+
 export default Home;

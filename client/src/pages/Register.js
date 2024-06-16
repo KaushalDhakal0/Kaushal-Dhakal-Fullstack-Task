@@ -1,15 +1,34 @@
 // RegisterPage.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/common/Button";
+import { registerUser } from "../sagas/user/actions";
 
 const RegisterPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
+  const {registerSuccess, registering , token , error} = useSelector(state => state.user)
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     confirmPassword: "",
+    username:""
   });
+
+  useEffect(()=>{
+    if(registerSuccess && token && !registering){
+      console.log(registerSuccess, token, registering);
+      navigate('/')
+    }
+  },[registerSuccess, token,registering])
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,15 +37,29 @@ const RegisterPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { password, confirmPassword } = formData;
+    const { email,password, confirmPassword } = formData;
+
+    if(!formData.email || !formData.password || !formData.confirmPassword || !formData.username){
+      toast.error("Please fill out all the fields.")
+    }
 
     if (password.trim() !== confirmPassword.trim()) {
-      console.log("==Password==>", password);
-      console.log("==confirm pw==>", confirmPassword);
       toast.error("Password must be same. Please check and try again.");
+      return;
     }
-    console.log("====Handle New User ERegistration......", formData);
-    // toast.success("User Registered Successfully...")
+    let validationErrors = {};
+
+    if (!validateEmail(email)) {
+      validationErrors.email = "Invalid email address";
+    }
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+    } else {
+      setErrors({});
+      dispatch(registerUser(formData));
+    }
+    
   };
 
   return (
@@ -51,6 +84,26 @@ const RegisterPage = () => {
               onChange={handleChange}
               className="tw-w-full tw-px-4 tw-py-2 tw-border tw-border-gray-300 tw-rounded-md focus:tw-outline-none focus:tw-border-indigo-500"
               placeholder="Enter your email"
+              required
+            />
+             {errors.email && <p className="tw-text-red-500 tw-text-sm">{errors.email}</p>}
+
+          </div>
+          <div>
+            <label
+              htmlFor="userName"
+              className="tw-block tw-text-gray-700 tw-mb-2"
+            >
+              UserName
+            </label>
+            <input
+              type="text"
+              id="userName"
+              name="username"
+              value={formData.userName}
+              onChange={handleChange}
+              className="tw-w-full tw-px-4 tw-py-2 tw-border tw-border-gray-300 tw-rounded-md focus:tw-outline-none focus:tw-border-indigo-500"
+              placeholder="Enter your username"
               required
             />
           </div>
@@ -102,12 +155,12 @@ const RegisterPage = () => {
               "tw-text-center tw-w-full tw-flex tw-justify-center tw-bg-indigo-600 tw-text-white tw-py-2 tw-rounded-md tw-font-semibold  focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-offset-2"
             }
             title="Register"
-            disabled={!formData.email || !formData.password || !formData.confirmPassword}
+            disabled={!formData.email || !formData.password || !formData.confirmPassword || !formData.username}
             loading={false}
             onClick={handleSubmit}
           />
         </div>
-        </form>
+        </form> 
         <p className="tw-text-gray-600 tw-mt-4">
           Already have an account?{" "}
           <Link to="/login" className="tw-text-indigo-600 hover:tw-underline">
