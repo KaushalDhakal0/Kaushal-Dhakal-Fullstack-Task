@@ -39,7 +39,7 @@ const CreateBlog = ({ handleCreatePost, setCreateMode }) => {
   }, [setCreateMode]);
 
   return (
-    <div className="tw-w-[500px] md:tw-w-[600px] lg:tw-w-[700px">
+    <div className="tw-w-[300px] md:tw-w-[600px] lg:tw-w-[700px">
       {/* <h1  className="tw-text-xl  tw-text-end tw-m-2 tw-cursor-pointer hover:tw-underline" onClick={() =>setCreateMode(false)}>Close</h1> */}
       <div
         className="tw-flex tw-flex-col tw-items-end tw-p-3 tw-cursor-pointer"
@@ -67,7 +67,7 @@ const CreateBlog = ({ handleCreatePost, setCreateMode }) => {
       >
         <div className="tw-mb-4">
           <label
-            className="tw-block tw-text-gray-700 tw-text-sm tw-font-bold tw-mb-2"
+            className="tw-block tw-text-gray-700 tw-text-md tw-font-bold tw-mb-2"
             htmlFor="author"
           >
             Author
@@ -84,7 +84,7 @@ const CreateBlog = ({ handleCreatePost, setCreateMode }) => {
         </div>
         <div className="tw-mb-4">
           <label
-            className="tw-block tw-text-gray-700 tw-text-sm tw-font-bold tw-mb-2"
+            className="tw-block tw-text-gray-700 tw-text-md tw-font-bold tw-mb-2"
             htmlFor="title"
           >
             Title
@@ -101,7 +101,7 @@ const CreateBlog = ({ handleCreatePost, setCreateMode }) => {
         </div>
         <div className="tw-mb-6">
           <label
-            className="tw-block tw-text-gray-700 tw-text-sm tw-font-bold tw-mb-2"
+            className="tw-block tw-text-gray-700 tw-text-md tw-font-bold tw-mb-2"
             htmlFor="description"
           >
             Description
