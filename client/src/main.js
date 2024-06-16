@@ -7,6 +7,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import postsSaga from './sagas/posts/postSaga.js';
 import rootReducer from './reducer.js';
+import userSaga from './sagas/user/userSaga.js';
 
 
 const saga = createSagaMiddleware();
@@ -21,6 +22,7 @@ const store = configureStore({
 });
 
 saga.run(postsSaga)
+saga.run(userSaga)
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>

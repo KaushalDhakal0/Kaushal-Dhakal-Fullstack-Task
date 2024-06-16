@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { POSTS_FETCH, POSTS_FETCH_ERROR, POSTS_FETCH_START, POSTS_FETCH_SUCCESS, POST_FETCH, POST_FETCH_ERROR, POST_FETCH_START, POST_FETCH_SUCCESS } from "./types";
+import { POSTS_FETCH, POSTS_FETCH_ERROR, POSTS_FETCH_START, POSTS_FETCH_SUCCESS, POST_DELETE, POST_DELETE_ERROR, POST_DELETE_START, POST_DELETE_SUCCESS, POST_FETCH, POST_FETCH_ERROR, POST_FETCH_START, POST_FETCH_SUCCESS, POST_UPDATE, POST_UPDATE_ERROR, POST_UPDATE_START, POST_UPDATE_SUCCESS } from "./types";
 import { ApiCall } from "../../utils/axiosApiCallWrapper";
 
 function* fetchPosts() {
@@ -20,13 +20,12 @@ function* fetchPosts() {
 
 function* fetchPost(action) {
 
-    console.log("===Fetching Single Poist==>", action);
     try {
         yield put({ type: POST_FETCH_START })
         const post = yield call(
             ApiCall,
             "GET",
-            `post/${action.payload.postId}`
+            `posts/${action.payload.postId}`
         )
         if(post.success){
             yield put({ type: POST_FETCH_SUCCESS, post: post?.data })
@@ -36,10 +35,46 @@ function* fetchPost(action) {
     }
 }
 
+function* updatePost(action) {
+
+    try {
+        yield put({ type: POST_UPDATE_START })
+        const post = yield call(
+            ApiCall,
+            "PUT",
+            `posts/${action.payload.postId}`
+        )
+        if(post.success){
+            yield put({ type: POST_UPDATE_SUCCESS, post: post?.data })
+        }
+    } catch (e) {
+        yield put({ type: POST_UPDATE_ERROR, message: e?.message || "Error while updating post" })
+    }
+}
+function* deletePost(action) {
+
+    try {
+        yield put({ type: POST_DELETE_START })
+        const post = yield call(
+            ApiCall,
+            "DELETE",
+            `posts/${action.payload.postId}`
+        )
+        if(post.success){
+            yield put({ type: POST_DELETE_SUCCESS, id: post?.data.id })
+        }
+    } catch (e) {
+        yield put({ type: POST_DELETE_ERROR, message: e?.message || "Error while deleting post" })
+    }
+}
+
+
 
 function* postsSaga() {
     yield takeLatest(POSTS_FETCH, fetchPosts)
     yield takeLatest(POST_FETCH, fetchPost)
+    yield takeLatest(POST_UPDATE, updatePost)
+    yield takeLatest(POST_DELETE, deletePost)
 }
 
 

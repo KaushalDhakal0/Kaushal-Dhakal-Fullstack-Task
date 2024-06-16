@@ -9,10 +9,12 @@ export const fetchPost = (payload) => ({
     payload:payload
 })
 
-export const updatePosts = () => ({
+export const updatePost = (payload) => ({
     type:POST_UPDATE,
+    payload:payload
 })
 
-export const deletePosts = () => ({
+export const deletePost = (payload) => ({
     type:POST_DELETE,
+    payload:payload
 })
