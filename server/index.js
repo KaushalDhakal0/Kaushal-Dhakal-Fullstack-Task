@@ -1,8 +1,11 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+const express = require("express");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const cors = require("cors");
 
 dotenv.config();
+
+const postRoutes = require("./routes/postRoutes");
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -11,13 +14,9 @@ const port = process.env.PORT || 8000;
 //   .then(() => console.log('MongoDB connected'))
 //   .catch(err => console.log(err));
 
+app.use(cors());
 app.use(express.json());
 
-app.get('/', (req,res)=>{
-    console.log("==Working==");
-    res.json({
-        name:"Server setup"
-    })
-})
+app.use("/posts", postRoutes);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
