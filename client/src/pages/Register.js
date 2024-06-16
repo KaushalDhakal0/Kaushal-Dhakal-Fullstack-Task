@@ -1,20 +1,30 @@
 // RegisterPage.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/common/Button";
 import { registerUser } from "../sagas/user/actions";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({});
+  const {registerSuccess, registering , token , error} = useSelector(state => state.user)
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     confirmPassword: "",
-    userName:""
+    username:""
   });
+
+  useEffect(()=>{
+    if(registerSuccess && token && !registering){
+      console.log(registerSuccess, token, registering);
+      navigate('/')
+    }
+  },[registerSuccess, token,registering])
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
@@ -29,7 +39,7 @@ const RegisterPage = () => {
     e.preventDefault();
     const { email,password, confirmPassword } = formData;
 
-    if(!formData.email || !formData.password || !formData.confirmPassword || !formData.userName){
+    if(!formData.email || !formData.password || !formData.confirmPassword || !formData.username){
       toast.error("Please fill out all the fields.")
     }
 
@@ -89,7 +99,7 @@ const RegisterPage = () => {
             <input
               type="text"
               id="userName"
-              name="userName"
+              name="username"
               value={formData.userName}
               onChange={handleChange}
               className="tw-w-full tw-px-4 tw-py-2 tw-border tw-border-gray-300 tw-rounded-md focus:tw-outline-none focus:tw-border-indigo-500"
@@ -145,7 +155,7 @@ const RegisterPage = () => {
               "tw-text-center tw-w-full tw-flex tw-justify-center tw-bg-indigo-600 tw-text-white tw-py-2 tw-rounded-md tw-font-semibold  focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-offset-2"
             }
             title="Register"
-            disabled={!formData.email || !formData.password || !formData.confirmPassword || !formData.userName}
+            disabled={!formData.email || !formData.password || !formData.confirmPassword || !formData.username}
             loading={false}
             onClick={handleSubmit}
           />

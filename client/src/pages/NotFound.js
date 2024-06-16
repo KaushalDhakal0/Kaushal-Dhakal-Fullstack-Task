@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const NotFound = () => {
+function NotFound() {
   return (
     <div className="tw-flex tw-items-center tw-justify-center tw-min-h-screen tw-bg-gray-100">
       <div className="tw-bg-white tw-p-8 tw-rounded-lg tw-shadow-lg tw-w-full tw-max-w-md tw-text-center">

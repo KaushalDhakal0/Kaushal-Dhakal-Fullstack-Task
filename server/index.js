@@ -11,8 +11,7 @@ const authRoutes = require("./routes/authRoutes");
 const app = express();
 const port = process.env.PORT || 8000;
 
-// ==Set up MongoDb and uncomment this code below.
-// connectDB()
+connectDB()
 
 
 app.use(cors());

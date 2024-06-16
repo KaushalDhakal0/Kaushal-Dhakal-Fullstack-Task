@@ -59,7 +59,7 @@ export function postsReducer(state = initialState, action) {
         ...state,
         deleting: false,
         deleteSuccess: true,
-        data: [...state.data].filter((val) => val.id !== action.id),
+        data: [...state.data].filter((val) => val._id !== action.id),
       };
 
     case POST_UPDATE_START:
@@ -79,7 +79,7 @@ export function postsReducer(state = initialState, action) {
         updating: false,
         updateSuccess: true,
         data: [...state.data].map((val) => {
-          if (val.id === action.post.id) {
+          if (val._id === action.post._id) {
             return action.post;
           } else {
             return val;

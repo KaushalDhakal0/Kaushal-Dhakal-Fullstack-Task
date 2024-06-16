@@ -1,17 +1,25 @@
 // LoginPage.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "./common/Button";
 import { loginUser } from "../sagas/user/actions";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
+  const {loginSuccess, loggingIn , token} = useSelector(state => state.user)
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(()=>{
+    if(loginSuccess && token && !loggingIn){
+      navigate('/')
+    }
+  },[loginSuccess, token])
 
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

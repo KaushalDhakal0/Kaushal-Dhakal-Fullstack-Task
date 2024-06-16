@@ -12,12 +12,15 @@ const HomePage = () => {
  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false)
 
   const {data , fetching, error, deleting, updating, deleteSuccess, updateSuccess} = useSelector(state => state.posts);
+
+  const {token } =useSelector(state => state.user)
   // console.log("===XXXXX===>", postsX);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchPosts())
-  },[])
+
+   dispatch(fetchPosts())
+  },[token])
 
 
 
@@ -58,8 +61,8 @@ const HomePage = () => {
       <h1 className="tw-text-3xl tw-font-bold tw-text-gray-800 tw-mt-8 tw-mb-4">
         Blog Posts
       </h1>
-      {data?.map((post, index) => (
-        <Link to={`/post/${post?.id}`} key={post?.id}>
+      {data?.map((post) => (
+        <Link to={`/post/${post?._id}`} key={post?._id}>
           <div
             className="tw-bg-white tw-shadow-md tw-rounded-lg tw-p-6 tw-mb-4 tw-cursor-pointer hover:tw-shadow-2xl"
           >
@@ -72,7 +75,7 @@ const HomePage = () => {
                 <div className="hover:tw-underline" onClick={e => {
                   e.preventDefault()
                   // e.stopPropagation()
-                  handleDeleteClick(post?.id)
+                  handleDeleteClick(post?._id)
                 }}>Delete</div>
             </div>
             </div>

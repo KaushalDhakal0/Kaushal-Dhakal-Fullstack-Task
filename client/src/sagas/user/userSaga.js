@@ -16,8 +16,11 @@ function* loginUser(action) {
             'auth/login',
             action.payload
         )
+
+        console.log("====Login===>", login);
         if(login.success){
-            yield put({ type: LOGIN_USER_SUCCESS, user: login?.data })
+            localStorage.setItem('token', login.token)
+            yield put({ type: LOGIN_USER_SUCCESS, token: login?.token, user: login?.user })
         }
     } catch (e) {
         yield put({ type: LOGIN_USER_ERROR, message: e?.message || "Error while logging in." })
@@ -38,7 +41,8 @@ function* registerUser(action) {
             action.payload
         )
         if(register.success){
-            yield put({ type: REGISTER_USER_SUCCESS, register: register?.data })
+            localStorage.setItem('token', register.token)
+            yield put({ type: REGISTER_USER_SUCCESS, token: register?.token, user : register?.user })
         }
     } catch (e) {
         yield put({ type: REGISTER_USER_ERROR, message: e?.message || "Error while registering user." })

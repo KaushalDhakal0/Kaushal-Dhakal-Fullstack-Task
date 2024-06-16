@@ -1,9 +1,9 @@
 import axios from "axios"
 
 const baseUrl = import.meta.env.VITE_REACT_APP_API_ENDPOINT;
+const token = localStorage.getItem('token')
 
-
-console.log("==Base Url==>", baseUrl);
+// console.log("==Base Url==>", baseUrl);
 const client = axios.create({
   baseURL:baseUrl,
 })
@@ -32,16 +32,16 @@ export const ApiCall = function (
         console.error('Error Message:', error.message)
       }
   
-      if (error.response.status === 401) {
-        window.location.href = '/logout'
-      }
+      // if (error.response.status === 401) {
+      //   window.location.href = '/logout'
+      // }
   
       return Promise.reject(error.response || error.message)
     }
   
     const config = {
       headers: {
-        // Authorization: 'Bearer ' + (token || static_token),
+        Authorization: 'Bearer ' + (token),
         'Content-Type': type || 'application/json',
       },
       onUploadProgress: (progressEvent) => {

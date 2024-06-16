@@ -61,7 +61,7 @@ function* deletePost(action) {
             `posts/${action.payload.postId}`
         )
         if(post.success){
-            yield put({ type: POST_DELETE_SUCCESS, id: post?.data.id })
+            yield put({ type: POST_DELETE_SUCCESS, id: post?.data._id })
         }
     } catch (e) {
         yield put({ type: POST_DELETE_ERROR, message: e?.message || "Error while deleting post" })

@@ -7,10 +7,9 @@ import RegisterPage from "./pages/Register";
 import Post from "./pages/Post";
 
 export const ROUTES = [
-  { component: <Home />, path: routes.HOME_PATH },
-  { component: <Login />, path: routes.LOGIN },
-  { component: <Post />, path: routes.POST },
-  { component: <RegisterPage />, path: routes.REGISTER },
-  { component: <NotFound />, path: "*" },
-
+  { Component: Home , path: routes.HOME_PATH , isPrivate: true},
+  { Component: Login , path: routes.LOGIN  , isPrivate: false},
+  { Component: Post , path: routes.POST , isPrivate: true},
+  { Component: RegisterPage , path: routes.REGISTER , isPrivate: false},
+  { Component: NotFound , path: "*" , isPrivate: false},
 ];
