@@ -15,6 +15,7 @@ import Delete from "./common/Delete";
 import CreateBlog from "./CreateBlog";
 import UpdateBlog from "./UpdateBlog";
 import { formatDate } from "../utils/date";
+import Button from "./common/Button";
 
 const HomePage = () => {
   const [currentPost, setCurrentPost] = useState(null);
@@ -104,12 +105,20 @@ const HomePage = () => {
               Blog Posts
             </h1>
           </div>
-          <div
+          {/* <div
             onClick={() => setCreateMode(true)}
-            className="tw-text-3xl tw-font-bold tw-text-gray-800 tw-mt-8 tw-mb-4 tw-cursor-pointer hover:tw-underline"
+            className="tw-text-2xl tw-font-bold tw-text-gray-800 tw-mt-8 tw-mb-4 tw-border-4 tw-cursor-pointer tw-rounded-md tw-p-2 hover:tw-bg-gray-400"
           >
             Create Blog +
-          </div>
+          </div> */}
+          <Button
+            className="tw-bg-gray-300 tw-h-10 tw-mt-5"
+            disabled={false}
+            loading={false}
+            onClick={()=> setCreateMode(true)}
+            title="Create Blog +"
+          
+          />
         </div>
         {data?.length < 1 && <div className="tw-mt-8"><h2 className="tw-text-center tw-text-xl">Empty blogs. Please <span className="hover:tw-underline tw-cursor-pointer"  onClick={() => setCreateMode(true)}>Create New</span>!!!</h2></div>}
         {data?.map((post) => (
