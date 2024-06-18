@@ -1,6 +1,6 @@
 # Dockerfile for Node.js Application
 
-FROM node:14
+FROM node:18
 
 WORKDIR /app
 
@@ -10,4 +10,4 @@ RUN npm install
 COPY . .
 
 EXPOSE 8000
-CMD ["node", "server.js"]
+CMD ["node", "index.js"]
